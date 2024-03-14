@@ -1,0 +1,102 @@
+
+{% extends 'base.html' %}
+{% block title %} Course Details - {{course.title}} {% endblock %}
+{% block content %}
+    <style type="text/css" media="all">
+       .register-block{
+          display: none;
+          color: white;
+          background: #4040409e;
+          height: 100%;
+          width: 100%;
+       }
+       .register-block > block-inner{
+           background: white;
+       }
+       .show{
+           display: block;
+       }    
+    </style>
+    <section id="sec" class="course-details-section">
+        <div class="container">
+            <div class="row position-relative">
+                <div class="col-sm-12 col-md-6 mt-2 ">
+                    <div class="text-center shadow rounded bg-light p-3">
+                        <img style="height:250px;width:100%;" class="img-fluid rounded-top" src="{{ course.image.url }}" alt="" />
+                        <h2 class="mt-3">{{ course.title }}</h2>
+                        <p class="text-leant">{{ course.description }}</p>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <div class="shadow rounded p-3">
+                        <h5>All Our courses Is Free</h5>
+                        <p><li>Learn digital skills for free</li></p>
+                        <p><li>Our courses we provite it to encourage students these that they dont have money to buy</li></p>
+                        <p><li>Get Certificate After you finish any course</li></p>
+                        <p><li>Our Certificate is free</li></p>
+                        <p><li>Start Job With us after finish learning</li></p>
+                    </div>
+                </div>
+                <div class="col-sm-12 text-center col-md-12 p-3">
+                    <button style="width:100%;" onclick="enroll()" class="btn btn-dark bg-dark mt-5" type="submit">Enroll Course for $0.0</button>
+                    <a style="width:100%;" class="btn btn-warning mt-3" href="https://t.me/avagoldcoin_bot?start=c2cd0f1c48d413e7be07">Earn Money</a>
+                </div>
+                
+                <div style=""  class="register-block position-absolute tanslate-middle top-0 start-0  text-center p-3">
+                    <h1 class="text-white">Register</h1>
+                    <p class="mt-2">Before enroll any course we need you email to identify our students</p>
+                    <p class="mt-2">After finish registration course enroll again</p>
+                    <p class="alert text-dark alert-info">
+                        <b>Note:</b>
+                        If Your have account we automatically redirect you to your account
+                    </p>
+                   <div class="col shadow block-inner">
+                        <form action="" method="post" class="form">
+                            {% csrf_token %}
+                        <div class="form-group">
+                            <label for="email" class="form-label">Email</label>
+                            <input autofocus autocomplete autofocus="autofocus" required type="email" name="email" id="" class="form-control">
+                            <input type="hidden" name="course" id="course" value="{{ course.title }}" />
+                        </div>
+                        <input type="submit" name="submit" id="submit" value="submit" class="Submit mt-4 btn btn-dark bg-dark" />
+                    </form>
+                   </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script type="text/javascript" charset="utf-8">
+    
+        var url = window.location.href
+
+        function enroll(){
+        var register_block = document.querySelector(".register-block")
+            fetch(url,{
+                method:'GET',
+                headers:{
+                   'from':'ajax'
+                }
+            }).then(res => {
+                return res.text()
+                
+            }).then(data => {
+                let json_data = JSON.parse(data)
+                if(json_data.message == 404){
+                    //alert("login first")
+                    try {
+                        register_block.classList.toggle("show")
+                        window.location.href = url+"#sec"
+                    } catch (e) {
+                        alert(e)
+                    }
+                }else{
+                    '{% if request.COOKIES.uname %}'
+                        window.location.href = "{% url 'courses:enrolled' request.COOKIES.uname course.title %}"
+                    '{% endif %}'
+                }
+            }).catch(error => {
+                alert(error)
+            })
+        }
+    </script>
+{% endblock %}

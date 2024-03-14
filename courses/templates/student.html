@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %} Profile Of {{ student.username }} {% endblock %}
+{% block content %}
+    <section class="student-section section">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 col-md-6 mt-3">
+                    <div class="rounded shadow p-3 text-center">
+                        <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="mdi-account-circle" width="64" height="64" viewBox="0 0 24 24"><path d="M12,19.2C9.5,19.2 7.29,17.92 6,16C6.03,14 10,12.9 12,12.9C14,12.9 17.97,14 18,16C16.71,17.92 14.5,19.2 12,19.2M12,5A3,3 0 0,1 15,8A3,3 0 0,1 12,11A3,3 0 0,1 9,8A3,3 0 0,1 12,5M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12C22,6.47 17.5,2 12,2Z" /></svg>
+                        <h2>{{ student.username }}</h2>
+                        <p>{{ student.email }}</p>
+                        <br />
+                        <span>Copy profile url:</span>
+                        <br />
+                        <input class="form-control mt-2" readonly type="url" name="url" id="url" value="https://{{ request.get_host }}{{ request.path }}" />
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-6 mt-3">
+                    <h2>Enrolled Courses</h2>
+                    <div class="rounded-sm shadow">
+                        <div class="row p-3">
+                            {% for course in courses %}
+                                <div class="col-md-6 col-sm-12 mt-4">
+                                    <div class="shadow rounded position-relative">
+                                        <div class="d-flex p-2">
+                                            <img class="img img-fluid rounded mt-4" style="height:50px;width:50px;" src="{{ course.image.url }}" alt="" />
+                                            <div class="inner m-2">
+                                                <h2>{{ course.title }}</h2>
+                                                <p>{{ course.description }}</p>
+                                            <a class="btn btn-default position-absolute translate-middle rounded-pill shadow top-0 start-100"  href="{% url 'courses:remove' student.username course.title %}">
+                                                <svg fill='#ef2424' xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="mdi-close" width="24" height="24" viewBox="0 0 24 24"><path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" /></svg>
+                                            </a>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
